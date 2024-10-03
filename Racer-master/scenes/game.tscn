@@ -1,0 +1,32 @@
+[gd_scene load_steps=7 format=3 uid="uid://ce0kllg2shm22"]
+
+[ext_resource type="PackedScene" uid="uid://3lt7np1w05ol" path="res://scenes/floor.tscn" id="1_1iil6"]
+[ext_resource type="PackedScene" uid="uid://ccxa1vwival16" path="res://scenes/car.tscn" id="2_lkuuw"]
+[ext_resource type="Texture2D" uid="uid://b8j62o885v6l4" path="res://resources/qwantani_puresky_1k.hdr" id="3_0m5ru"]
+
+[sub_resource type="PanoramaSkyMaterial" id="PanoramaSkyMaterial_oobf6"]
+panorama = ExtResource("3_0m5ru")
+
+[sub_resource type="Sky" id="Sky_xpsfs"]
+sky_material = SubResource("PanoramaSkyMaterial_oobf6")
+process_mode = 3
+radiance_size = 5
+
+[sub_resource type="Environment" id="Environment_rnqem"]
+background_mode = 2
+sky = SubResource("Sky_xpsfs")
+
+[node name="Game" type="Node3D"]
+
+[node name="Floor" parent="." instance=ExtResource("1_1iil6")]
+
+[node name="Car" parent="." instance=ExtResource("2_lkuuw")]
+transform = Transform3D(0.999548, 0.0236993, 0.0185296, -0.023696, 0.999719, -0.000398308, -0.0185338, -4.09502e-05, 0.999828, -1193.31, 6.45383, -563.798)
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_rnqem")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(0.441088, 0.836796, -0.324366, -0.857711, 0.49943, 0.12207, 0.264146, 0.224369, 0.938022, -1192.75, 36.0367, 742.815)
+light_energy = 1.5
+shadow_enabled = true

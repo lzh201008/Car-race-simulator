@@ -1,0 +1,87 @@
+[gd_scene load_steps=9 format=3 uid="uid://3lt7np1w05ol"]
+
+[ext_resource type="Texture2D" uid="uid://brbl2y5w2byrv" path="res://resources/textures/Environment_grass13_3wF_2aHKQOJPOABvFH_n_A.jpg" id="1_1fna8"]
+[ext_resource type="Texture2D" uid="uid://bvxjdwjvi031y" path="res://resources/textures/road_texture.jpg" id="2_gsnwx"]
+[ext_resource type="PackedScene" uid="uid://dfqne30ltohgh" path="res://cbd.glb" id="3_u6ld5"]
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_8p8gw"]
+albedo_texture = ExtResource("1_1fna8")
+uv1_triplanar = true
+uv1_world_triplanar = true
+
+[sub_resource type="PlaneMesh" id="PlaneMesh_d3677"]
+material = SubResource("StandardMaterial3D_8p8gw")
+
+[sub_resource type="ConvexPolygonShape3D" id="ConvexPolygonShape3D_8xfy6"]
+points = PackedVector3Array(-1, 0, -1, -1, 0, 1, 1, 0, -1, 1, 0, 1)
+
+[sub_resource type="Curve3D" id="Curve3D_7mi3d"]
+_data = {
+"points": PackedVector3Array(0, 0, 0, 0, 0, 0, -1193.67, 0, -591.332, 0, 0, 0, 0, 0, 0, -1188.84, 0, 87.895, 0, 0, 0, 0, 0, 0, -653.184, 0, 89.1014, 0, 0, 0, 0, 0, 0, -656.803, 0, 223.016, 0, 0, 0, 0, 0, 0, -1192.46, 0, 229.049, 0, 0, 0, 0, 0, 0, -1197.29, 0, 336.422, 0, 0, 0, 0, 0, 0, -670.074, 0, 344.867, 0, 0, 0, 0, 0, 0, 132.21, 0, 337.628, 0, 0, 0, 0, 0, 0, 122.038, 0, -142.074, 0, 0, 0, 0, 0, 0, -669.848, 0, -144.734, 0, 0, 0, 0, 0, 0, -670.735, 0, -444.463, 0, 0, 0, 0, 0, 0, 133.566, 0, -442.689, 0, 0, 0, 0, 0, 0, 129.797, 0, -603.396),
+"tilts": PackedFloat32Array(0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0)
+}
+point_count = 13
+
+[sub_resource type="StandardMaterial3D" id="StandardMaterial3D_56yj0"]
+albedo_texture = ExtResource("2_gsnwx")
+roughness = 0.8
+uv1_triplanar = true
+uv1_world_triplanar = true
+
+[node name="Floor" type="Node3D" groups=["terrain"]]
+
+[node name="StaticBody3D" type="StaticBody3D" parent="."]
+transform = Transform3D(2000, 0, 0, 0, 2000, 0, 0, 0, 2000, 0, 0, 0)
+
+[node name="ground" type="MeshInstance3D" parent="StaticBody3D"]
+mesh = SubResource("PlaneMesh_d3677")
+skeleton = NodePath("../..")
+
+[node name="CollisionShape3D" type="CollisionShape3D" parent="StaticBody3D"]
+visible = false
+shape = SubResource("ConvexPolygonShape3D_8xfy6")
+
+[node name="Tracks" type="Node3D" parent="."]
+
+[node name="Path3D" type="Path3D" parent="Tracks"]
+curve = SubResource("Curve3D_7mi3d")
+
+[node name="CSGPolygon3D" type="CSGPolygon3D" parent="Tracks/Path3D"]
+material_override = SubResource("StandardMaterial3D_56yj0")
+use_collision = true
+polygon = PackedVector2Array(-4, 0, -4, 0.1, 4, 0.1, 4, 0)
+mode = 2
+path_node = NodePath("..")
+path_interval_type = 0
+path_interval = 1.0
+path_simplify_angle = 0.0
+path_rotation = 2
+path_local = false
+path_continuous_u = true
+path_u_distance = 1.0
+path_joined = false
+
+[node name="barrior" type="CSGPolygon3D" parent="Tracks/Path3D"]
+use_collision = true
+polygon = PackedVector2Array(-4, 0, 4, 0, 4, 0.5, 8, 0.5, 8, -0.5, -8, -0.5, -8, 0.5, -4, 0.5)
+mode = 2
+path_node = NodePath("..")
+path_interval_type = 0
+path_interval = 1.0
+path_simplify_angle = 0.0
+path_rotation = 2
+path_local = false
+path_continuous_u = true
+path_u_distance = 1.0
+path_joined = false
+
+[node name="cbd" parent="Tracks" instance=ExtResource("3_u6ld5")]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -469.018, -10, 143.156)
+
+[node name="Alamut" type="Node3D" parent="."]
+
+[node name="Label3D" type="Label3D" parent="Alamut"]
+transform = Transform3D(1, 0, 0, 0, 1, 0, 0, 0, 1, -21.1599, 0, -24.9818)
+pixel_size = 0.2
+offset = Vector2(0, 15)
+text = "Alamut"
